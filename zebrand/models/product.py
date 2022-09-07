@@ -7,4 +7,4 @@ class Product(Model):
     id = fields.IntField(pk=True)
     name = fields.TextField()
     price = fields.DecimalField(max_digits=10, decimal_places=2)
-    sku = fields.TextField()
+    sku = fields.CharField(unique=True, max_length=50)
