@@ -16,3 +16,8 @@ class ProductController:
             return product, 'product created success'
         return product, 'product already exist'
 
+    async def delete(self, sku: str):
+        product = await self._model.get_or_none(sku=sku)
+        if not product:
+            return None, 'Item not exist'
+        return await product.delete(), 'Item delete success'
