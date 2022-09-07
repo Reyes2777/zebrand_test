@@ -1,0 +1,4 @@
+graphene==3.1
+starlette-graphene3==0.6.0
+starlette==0.20.4
+tortoise-orm==0.19.2
