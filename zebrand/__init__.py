@@ -1,6 +1,8 @@
 import os
 from tortoise import Tortoise
 
+from zebrand import settings
+
 
 async def run(generate_schemas=False):
     await Tortoise.init(
@@ -9,11 +11,11 @@ async def run(generate_schemas=False):
                 'default': {
                     'engine': 'tortoise.backends.asyncpg',
                     'credentials': {
-                        'host': os.environ['DB_HOST'],
-                        'port': os.environ['DB_PORT'],
-                        'user': os.environ['DB_USER'],
-                        'password': os.environ['DB_PASSWORD'],
-                        'database': os.environ['DB_NAME']
+                        'host': settings.DB_HOST,
+                        'port': settings.DB_PORT,
+                        'user': settings.DB_USER,
+                        'password': settings.DB_PASSWORD,
+                        'database': settings.DB_NAME
                     }
                 }
             },
