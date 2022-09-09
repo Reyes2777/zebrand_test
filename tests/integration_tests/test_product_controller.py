@@ -1,6 +1,7 @@
 from pytest import mark
 
 from zebrand.controllers.product import ProductController
+from zebrand.models import Product
 
 _create_product_success = (
     (
@@ -46,6 +47,41 @@ async def test_create_product(db_transaction, params):
         price=params['price']
     )
     assert message == 'product created success'
+    assert isinstance(product, Product)
+
+
+@mark.asyncio
+@mark.parametrize('params', _create_product_success)
+async def test_update_product(db_transaction, product_fixture, params):
+    product_controller = ProductController()
+    product, message = await product_controller.update(
+        sku=params['sku'],
+        name='TV LED 50',
+        brand='SAMSUNG',
+        price=1200000
+    )
+    assert message == 'Product update success'
+    assert product.name == 'TV LED 50'
+    assert product.price == 1200000
+    assert isinstance(product, Product)
+
+
+@mark.asyncio
+@mark.parametrize('params', _create_product_success)
+async def test_all_products(db_transaction, product_fixture, params):
+    product_controller = ProductController()
+    products, message = await product_controller.all()
+    assert message == 'All objects'
+    assert type(products) == list
+
+
+@mark.asyncio
+@mark.parametrize('params', _create_product_success)
+async def test_all_search_products(db_transaction, product_fixture, params):
+    product_controller = ProductController()
+    products, message = await product_controller.search_product(sku=params.get('sku'))
+    assert message == 'Search Success'
+    assert type(products) == list
 
 
 @mark.asyncio
@@ -59,6 +95,7 @@ async def test_create_product_when_already_exist(db_transaction, product_fixture
         price=params['price']
     )
     assert message == 'product already exist'
+    assert isinstance(product, Product)
 
 
 @mark.asyncio
