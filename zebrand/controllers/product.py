@@ -8,11 +8,14 @@ class ProductController:
     async def create(self, **kwargs):
         product = await self._model.get_or_none(sku=kwargs.get('sku'))
         if not product:
-            product = await self._model.create(
-                sku=kwargs['sku'],
-                name=kwargs['name'],
-                brand=kwargs['brand'],
-                price=kwargs['price'])
+            try:
+                product = await self._model.create(
+                    sku=kwargs['sku'],
+                    name=kwargs['name'],
+                    brand=kwargs['brand'],
+                    price=kwargs['price'])
+            except Exception as error:
+                return None, error.args[0]
             return product, 'product created success'
         return product, 'product already exist'
 

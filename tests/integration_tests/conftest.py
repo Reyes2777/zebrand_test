@@ -6,6 +6,7 @@ import asyncpg
 from pytest import fixture
 from pytest_asyncio import fixture as async_fixture
 
+from tests.factories import ProductFactory
 from zebrand import run, settings
 
 
@@ -44,3 +45,10 @@ async def db_transaction(event_loop, create_db, db_connection):
     yield
     print('doing rollback...')
     await db_connection.execute('TRUNCATE product CASCADE;')
+
+
+@async_fixture
+async def product_fixture(db_transaction):
+    product = ProductFactory.build()
+    await product.save()
+
