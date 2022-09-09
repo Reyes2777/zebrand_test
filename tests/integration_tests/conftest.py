@@ -3,9 +3,11 @@ import os
 import subprocess
 
 import asyncpg
+from graphene.test import Client
 from pytest import fixture
 from pytest_asyncio import fixture as async_fixture
 
+from main import schema
 from tests.factories import ProductFactory
 from zebrand import run, settings
 
@@ -51,4 +53,9 @@ async def db_transaction(event_loop, create_db, db_connection):
 async def product_fixture(db_transaction):
     product = ProductFactory.build()
     await product.save()
+
+
+@fixture
+def graph_client():
+    return Client(schema=schema)
 

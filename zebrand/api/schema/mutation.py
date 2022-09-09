@@ -42,3 +42,25 @@ class DeleteProductMutation(graphene.Mutation):
 class Mutation(graphene.ObjectType):
     create_product = CreateProductMutation.Field()
     delete_product = DeleteProductMutation.Field()
+
+
+class UpdateProductMutation(graphene.Mutation):
+
+    response = graphene.String()
+
+    class Arguments:
+        sku = graphene.String()
+        name = graphene.String()
+        brand = graphene.String()
+        price = graphene.String()
+
+    async def mutate(self, info, **kwargs):
+        product_controller = ProductController()
+        product, message = await product_controller.update(**kwargs)
+        return CreateProductMutation(response=message)
+
+
+class Mutation(graphene.ObjectType):
+    create_product = CreateProductMutation.Field()
+    delete_product = DeleteProductMutation.Field()
+    update_product = UpdateProductMutation.Field()

@@ -30,6 +30,7 @@ class ProductController:
         if not product:
             return None, 'Item not exist'
         await product.update_from_dict(kwargs)
+        await product.save()
         return product, 'Product update success'
 
     async def all(self):
