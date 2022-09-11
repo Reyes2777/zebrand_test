@@ -35,6 +35,8 @@ run commands
 
 ### Use APP
 
+You can run in heroku https://enigmatic-mountain-66867.herokuapp.com/
+
 You can show the docs to query and mutation enabled to use to run in console graphql
 
 #### Querys
